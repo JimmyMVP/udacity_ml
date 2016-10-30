@@ -32,10 +32,14 @@ plt.show()
 ### visualization code (prettyPicture) to show you the decision boundary
 
 
+from sklearn.ensemble import RandomForestClassifier
 
+clf = RandomForestClassifier(min_samples_split = 50)
 
+clf = clf.fit(features_train, labels_train)
 
-
+from sklearn.metrics import accuracy_score
+print(accuracy_score(clf.predict(features_test), labels_test))
 
 
 try:
