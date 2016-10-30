@@ -3,6 +3,7 @@
 import matplotlib.pyplot as plt
 from prep_terrain_data import makeTerrainData
 from class_vis import prettyPicture
+import numpy as np
 
 features_train, labels_train, features_test, labels_test = makeTerrainData()
 
@@ -24,7 +25,7 @@ plt.scatter(grade_slow, bumpy_slow, color = "r", label="slow")
 plt.legend()
 plt.xlabel("bumpiness")
 plt.ylabel("grade")
-plt.show()
+#plt.show()
 ################################################################################
 
 
@@ -32,14 +33,14 @@ plt.show()
 ### visualization code (prettyPicture) to show you the decision boundary
 
 
-from sklearn.ensemble import RandomForestClassifier
+from autosklearn.classification import AutoSklearnClassifier
 
-clf = RandomForestClassifier(min_samples_split = 50)
+clf = AutoSklearnClassifier(time_left_for_this_task=3600)
 
-clf = clf.fit(features_train, labels_train)
+clf.fit(features_train, labels_train)
 
 from sklearn.metrics import accuracy_score
-print(accuracy_score(clf.predict(features_test), labels_test))
+print(accuracy_score(clf.predict(np.array(features_test)), labels_test))
 
 
 try:
