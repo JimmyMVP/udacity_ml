@@ -11,6 +11,7 @@ import pickle
 import numpy
 import matplotlib.pyplot as plt
 import sys
+import numpy as np
 sys.path.append("../tools/")
 from feature_format import featureFormat, targetFeatureSplit
 
@@ -49,7 +50,7 @@ data_dict.pop("TOTAL", 0)
 feature_1 = "salary"
 feature_2 = "exercised_stock_options"
 poi  = "poi"
-features_list = [poi, feature_1, feature_2]
+features_list = [poi, feature_1, feature_2, "total_payments"]
 data = featureFormat(data_dict, features_list )
 poi, finance_features = targetFeatureSplit( data )
 
@@ -58,13 +59,22 @@ poi, finance_features = targetFeatureSplit( data )
 ### you'll want to change this line to 
 ### for f1, f2, _ in finance_features:
 ### (as it's currently written, the line below assumes 2 features)
-for f1, f2 in finance_features:
+for f1, f2, _ in finance_features:
     plt.scatter( f1, f2 )
 plt.show()
+
+feat = np.array(finance_features)[:,0]
+print(feat.max())
+print(feat[feat != 0].min())
 
 ### cluster here; create predictions of the cluster labels
 ### for the data and store them to a list called pred
 
+from sklearn.cluster import KMeans
+
+kmeans = KMeans(n_clusters=2)
+kmeans.fit(finance_features)
+pred = kmeans.predict(finance_features)
 
 
 
