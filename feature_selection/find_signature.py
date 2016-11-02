@@ -2,6 +2,7 @@
 
 import pickle
 import numpy
+from sklearn.tree import DecisionTreeClassifier
 numpy.random.seed(42)
 
 
@@ -35,9 +36,17 @@ features_test  = vectorizer.transform(features_test).toarray()
 features_train = features_train[:150].toarray()
 labels_train   = labels_train[:150]
 
+from sklearn.metrics import accuracy_score
 
+print(len(labels_train))
 
 ### your code goes here
+dt = DecisionTreeClassifier()
+dt = dt.fit(features_train, labels_train)
 
+print(accuracy_score(dt.predict(features_test), labels_test))
+
+for ind, imp in enumerate(dt.feature_importances_):
+    print("Feature " + str(ind) + " " + str(imp))
 
 

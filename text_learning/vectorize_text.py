@@ -36,32 +36,42 @@ word_data = []
 ### can iterate your modifications quicker
 temp_counter = 0
 
+replaceable = ["sara", "shackleton", "chris", "germani"]
 
 for name, from_person in [("sara", from_sara), ("chris", from_chris)]:
     for path in from_person:
         ### only look at first 200 emails when developing
         ### once everything is working, remove this line to run over full dataset
-        temp_counter += 1
         if temp_counter < 200:
             path = os.path.join('..', path[:-1])
             print path
             email = open(path, "r")
 
             ### use parseOutText to extract the text from the opened email
+            text = parseOutText(email)
 
             ### use str.replace() to remove any instances of the words
             ### ["sara", "shackleton", "chris", "germani"]
+            for word in replaceable:
+                text = text.replace(word, "")
 
             ### append the text to word_data
 
-            ### append a 0 to from_data if email is from Sara, and 1 if email is from Chris
+            word_data.append(text)
 
+            ### append a 0 to from_data if email is from Sara, and 1 if email is from Chris
+            if name == "sara":
+                from_data.append(0)
+            else:
+                from_data.append(1)
 
             email.close()
 
 print "emails processed"
 from_sara.close()
 from_chris.close()
+
+print(word_data[152])
 
 pickle.dump( word_data, open("your_word_data.pkl", "w") )
 pickle.dump( from_data, open("your_email_authors.pkl", "w") )
