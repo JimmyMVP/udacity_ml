@@ -12,6 +12,7 @@
 
 import pickle
 import sys
+import numpy as np
 sys.path.append("../tools/")
 from feature_format import featureFormat, targetFeatureSplit
 
@@ -27,6 +28,35 @@ labels, features = targetFeatureSplit(data)
 
 
 
+
+
 ### it's all yours from here forward!  
+
+
+
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.cross_validation import train_test_split
+
+dt = DecisionTreeClassifier()
+
+from sklearn.metrics import accuracy_score
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import precision_score, recall_score
+
+X_train, X_test, Y_train, Y_test = train_test_split(features, labels, random_state=42, test_size=0.3)
+
+
+Y_test = np.array(Y_test)
+
+print(Y_test.size)
+dt.fit(X_train, Y_train)
+
+
+
+print("Decision tree accuracy: " + str(accuracy_score(dt.predict(X_test), Y_test)))
+print("Confusion matrix:")
+print(confusion_matrix(Y_test, dt.predict(X_test)))
+print("Recall: " + str(recall_score(Y_test, dt.predict(X_test))))
+print("Precision: " + str(precision_score(Y_test, dt.predict(X_test))))
 
 
